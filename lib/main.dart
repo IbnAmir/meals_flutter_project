@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-import './categories_screen.dart';
+import './screens/filters_screen.dart';
+import './screens/meal_detail_screen.dart';
+import './screens/tabs_screen.dart';
+import './screens/category_meals_screen.dart';
+import './screens/categories_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'DeliMeals',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
-        accentColor: Colors.teal,
+        accentColor: Colors.amber,
         canvasColor: const Color.fromRGBO(255, 254, 229, 1),
         fontFamily: 'Raleway',
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -32,7 +36,25 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
-      home: CategoriesScreen(),
+      // home: CategoriesScreen(), // set the default screen
+      initialRoute: '/', // default is '/'
+      routes: {
+        '/': (ctx) =>  TabsScreen(), // means that categoriesScreen is the default
+        // '/category-meals': (ctx) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(), // instead of hardcode the route as Above
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
+      },
+      //onGEnerateRoute : to redirect you to a chosen page if the page you selected is not in the main
+      onGenerateRoute: (settings){
+        // print(settings.arguments);
+        // if(settings.name == '/meal-detail'){return 'whatever';}
+        // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      },
+      onUnknownRoute: (settings){
+        return MaterialPageRoute(builder: (ctx) => const CategoriesScreen(),);
+      },
+
     );
   }
 }
